@@ -22,39 +22,16 @@ const express_1 = __importDefault(require("express"));
 const http_1 = __importDefault(require("http"));
 const cors_1 = __importDefault(require("cors"));
 const jwtValidation_1 = require("./app/utils/jwtValidation");
+const schema_1 = require("./app/graphql/schema");
+const resolvers_1 = require("./app/graphql/resolvers");
 exports.prisma = new client_1.PrismaClient();
 const app = (0, express_1.default)();
 const httpServer = http_1.default.createServer(app);
-const typeDefs = `#graphql
-
-  type Book {
-    title: String
-    author: String
-  }
-  type Query {
-    books: [Book]
-  }
-`;
-const books = [
-    {
-        title: 'The Awakening',
-        author: 'Kate Chopin',
-    },
-    {
-        title: 'City of Glass',
-        author: 'Paul Auster',
-    },
-];
-const resolvers = {
-    Query: {
-        books: () => books,
-    },
-};
 function startServer() {
     return __awaiter(this, void 0, void 0, function* () {
         const server = new server_1.ApolloServer({
-            typeDefs,
-            resolvers,
+            typeDefs: schema_1.typeDefs,
+            resolvers: resolvers_1.resolvers,
             plugins: [(0, drainHttpServer_1.ApolloServerPluginDrainHttpServer)({ httpServer })],
             introspection: true
         });
