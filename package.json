@@ -7,12 +7,15 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "compile": "tsc",
     "dev": "ts-node-dev src/index.ts",
+    "postinstall": "prisma generate",
+    "build": "tsc",
     "start": "nodemon ./build/index.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
     "@types/jsonwebtoken": "^9.0.5",
     "@types/node": "^20.10.1",
     "nodemon": "^3.0.1",
@@ -28,6 +31,7 @@
     "bcrypt": "^5.1.1",
     "body-parser": "^1.20.2",
     "cors": "^2.8.5",
+    "dataloader": "^2.2.2",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "graphql": "^16.8.1",

@@ -9,7 +9,8 @@ import express from 'express'
 import http from 'http'
 import cors from 'cors'
 import { jwtHelper } from './app/utils/jwtValidation';
-
+import { typeDefs } from './app/graphql/schema';
+import { resolvers } from './app/graphql/resolvers';
 
 export const prisma = new PrismaClient()
 const app = express()
@@ -28,35 +29,7 @@ interface MyContext {
 }
 
 
-
-const typeDefs = `#graphql
-
-  type Book {
-    title: String
-    author: String
-  }
-  type Query {
-    books: [Book]
-  }
-`;
-const books = [
-    {
-      title: 'The Awakening',
-      author: 'Kate Chopin',
-    },
-    {
-      title: 'City of Glass',
-      author: 'Paul Auster',
-    },
-  ];
-
-const resolvers = {
-    Query: {
-      books: () => books,
-    },
-  };
-
-  async function startServer(){
+async function startServer(){
     
     const server = new ApolloServer({
       typeDefs,
@@ -86,6 +59,6 @@ const resolvers = {
       )
 
     app.listen(8001,()=>console.log('Server started on http://localhost:8001/graphql'))
-  }
+}
 
-  startServer()
+startServer()
