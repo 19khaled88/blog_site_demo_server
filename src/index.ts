@@ -8,17 +8,19 @@ import bodyParser from 'body-parser';
 import express from 'express'
 import http from 'http'
 import cors from 'cors'
+import { jwtHelper } from './app/utils/jwtValidation';
 
 
+export const prisma = new PrismaClient()
 const app = express()
 const httpServer = http.createServer(app)
 
 
 interface Context {
   prisma: PrismaClient<Prisma.PrismaClientOptions, never, DefaultArgs>
-  // userInfo: {
-  //   userId: number
-  // } 
+  userInfo: {
+    userId: number
+  } 
 }
 
 interface MyContext {
@@ -72,7 +74,15 @@ const resolvers = {
 
       cors<cors.CorsRequest>(),
       express.json(),
-      expressMiddleware(server)
+      expressMiddleware(server,{
+        context:async({req}):Promise<Context>=>{
+          const userInfo = await jwtHelper.getInfoFromToken(req.headers.authorization as string)
+          return {
+            prisma,
+            userInfo
+          }
+        }
+      })
       )
 
     app.listen(8001,()=>console.log('Server started on http://localhost:8001/graphql'))

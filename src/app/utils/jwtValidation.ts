@@ -1,6 +1,9 @@
 import jwt, {JwtPayload,Secret} from 'jsonwebtoken'
 import config from '../config'
 
+type tokenType={
+   userId:number | any
+}
 
 const createToken =async(id:number)=>{
 
@@ -8,14 +11,12 @@ const createToken =async(id:number)=>{
   
 }
 
-const getInfoFromToken =async(token:string)=>{
+const getInfoFromToken =async(token:string):Promise<tokenType>=>{
    
    try {
-     
       const userData = jwt.verify(token,config.jwt_secret as Secret) as { userId:number}
-      
       return userData
-   } catch (error) {
+   } catch (error:any) {
       return error
    }
 }
