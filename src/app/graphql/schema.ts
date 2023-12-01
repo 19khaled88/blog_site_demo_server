@@ -8,6 +8,7 @@ export const typeDefs = `#graphql
     title:String!
     content:String!
     createdAt:String!
+    avatar:String
     published:Boolean!
     userId:Int
     user:User  
@@ -57,6 +58,7 @@ export const typeDefs = `#graphql
   input PostData {
     title:String,
     content:String,
+    avatar:String,
   }
 
   input PostPublish {

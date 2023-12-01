@@ -15,6 +15,7 @@ const getInfoFromToken =async(token:string):Promise<tokenType>=>{
    
    try {
       const userData = jwt.verify(token,config.jwt_secret as Secret) as { userId:number}
+      
       return userData
    } catch (error:any) {
       return error

@@ -1,16 +1,15 @@
 import { ApolloServer } from '@apollo/server';
-import { startStandaloneServer } from '@apollo/server/standalone';
-import {ApolloServerPluginDrainHttpServer} from '@apollo/server/plugin/drainHttpServer'
-import {expressMiddleware} from '@apollo/server/express4'
-import {PrismaClient,Prisma} from '@prisma/client'
-import {DefaultArgs} from '@prisma/client/runtime/library'
+import { expressMiddleware } from '@apollo/server/express4';
+import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer';
+import { Prisma, PrismaClient } from '@prisma/client';
+import { DefaultArgs } from '@prisma/client/runtime/library';
 import bodyParser from 'body-parser';
-import express from 'express'
-import http from 'http'
-import cors from 'cors'
-import { jwtHelper } from './app/utils/jwtValidation';
-import { typeDefs } from './app/graphql/schema';
+import cors from 'cors';
+import express from 'express';
+import http from 'http';
 import { resolvers } from './app/graphql/resolvers';
+import { typeDefs } from './app/graphql/schema';
+import { jwtHelper } from './app/utils/jwtValidation';
 
 export const prisma = new PrismaClient()
 const app = express()
@@ -43,13 +42,14 @@ async function startServer(){
     await server.start()
 
     app.use(
-      '/graphql',
+      '/api/graphql',
 
       cors<cors.CorsRequest>(),
       express.json(),
       expressMiddleware(server,{
         context:async({req}):Promise<Context>=>{
           const userInfo = await jwtHelper.getInfoFromToken(req.headers.authorization as string)
+          
           return {
             prisma,
             userInfo

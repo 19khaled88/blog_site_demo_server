@@ -16,7 +16,7 @@ interface userInput {
 export const authResolvers ={
 
 
-    signup: async (parnet: any, args: userInput, {prisma}: any) => {
+  signup: async (parnet: any, args: userInput, {prisma}: any) => {
 
         //check if user exist
         const isExist = await prisma.user.findFirst({
@@ -56,10 +56,10 @@ export const authResolvers ={
             token: null
           }
         }
-      },
+  },
   
   
-      signin: async (parent: any, args: userValidate, {prisma}: any) => {
+  signin: async (parent: any, args: userValidate, {prisma}: any) => {
 
 
   
@@ -94,5 +94,5 @@ export const authResolvers ={
           message: 'User Loggedin successfully',
           token: token
         }
-      },
+  },
 }
