@@ -14,16 +14,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.prisma = void 0;
 const server_1 = require("@apollo/server");
-const drainHttpServer_1 = require("@apollo/server/plugin/drainHttpServer");
 const express4_1 = require("@apollo/server/express4");
+const drainHttpServer_1 = require("@apollo/server/plugin/drainHttpServer");
 const client_1 = require("@prisma/client");
 const body_parser_1 = __importDefault(require("body-parser"));
+const cors_1 = __importDefault(require("cors"));
 const express_1 = __importDefault(require("express"));
 const http_1 = __importDefault(require("http"));
-const cors_1 = __importDefault(require("cors"));
-const jwtValidation_1 = require("./app/utils/jwtValidation");
-const schema_1 = require("./app/graphql/schema");
 const resolvers_1 = require("./app/graphql/resolvers");
+const schema_1 = require("./app/graphql/schema");
+const jwtValidation_1 = require("./app/utils/jwtValidation");
 exports.prisma = new client_1.PrismaClient();
 const app = (0, express_1.default)();
 const httpServer = http_1.default.createServer(app);
@@ -38,7 +38,7 @@ function startServer() {
         app.use(body_parser_1.default.json());
         app.use((0, cors_1.default)());
         yield server.start();
-        app.use('/graphql', (0, cors_1.default)(), express_1.default.json(), (0, express4_1.expressMiddleware)(server, {
+        app.use('/api/graphql', (0, cors_1.default)(), express_1.default.json(), (0, express4_1.expressMiddleware)(server, {
             context: ({ req }) => __awaiter(this, void 0, void 0, function* () {
                 const userInfo = yield jwtValidation_1.jwtHelper.getInfoFromToken(req.headers.authorization);
                 return {
@@ -47,7 +47,7 @@ function startServer() {
                 };
             })
         }));
-        app.listen(8001, () => console.log('Server started on http://localhost:8001/graphql'));
+        app.listen(8001, () => console.log('Server started on http://localhost:8001/api/graphql'));
     });
 }
 startServer();

@@ -9,6 +9,7 @@ exports.typeDefs = `#graphql
     title:String!
     content:String!
     createdAt:String!
+    avatar:String
     published:Boolean!
     userId:Int
     user:User  
@@ -58,6 +59,18 @@ exports.typeDefs = `#graphql
   input PostData {
     title:String,
     content:String,
+    avatar:String,
+  }
+
+  input CreateUser{
+    name :String,
+    email :String,
+    password :String
+  }
+
+  input Login{
+    email:String,
+    password:String
   }
 
   input PostPublish {
@@ -80,14 +93,11 @@ exports.typeDefs = `#graphql
 
   type Mutation {
     signup(
-        name :String!,
-        email :String!,
-        password :String!       
+      makeUser:CreateUser!      
     ):AuthResponse
 
     signin( 
-      email:String!,
-      password:String!
+      authenticateUser:Login!
     ):AuthResponse
 
     profile_create(
