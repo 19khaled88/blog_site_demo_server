@@ -60,9 +60,6 @@ export const authResolvers ={
   
   
   signin: async (parent: any, args: userValidate, {prisma}: any) => {
-
-
-  
         //check if user exist
         const isExist = await prisma.user.findFirst({
           where: {

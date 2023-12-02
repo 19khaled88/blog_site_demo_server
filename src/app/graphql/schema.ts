@@ -87,16 +87,14 @@ export const typeDefs = `#graphql
     posts:[Post]
   }
 
-
-
-
   type Mutation {
     signup(
       makeUser:CreateUser!      
     ):AuthResponse
 
     signin( 
-      authenticateUser:Login!
+      email:String!,
+      password:String!
     ):AuthResponse
 
     profile_create(
