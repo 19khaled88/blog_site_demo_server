@@ -61,6 +61,17 @@ export const typeDefs = `#graphql
     avatar:String,
   }
 
+  input CreateUser{
+    name :String,
+    email :String,
+    password :String
+  }
+
+  input Login{
+    email:String,
+    password:String
+  }
+
   input PostPublish {
     published:Boolean
   }
@@ -81,14 +92,11 @@ export const typeDefs = `#graphql
 
   type Mutation {
     signup(
-        name :String!,
-        email :String!,
-        password :String!       
+      makeUser:CreateUser!      
     ):AuthResponse
 
     signin( 
-      email:String!,
-      password:String!
+      authenticateUser:Login!
     ):AuthResponse
 
     profile_create(
