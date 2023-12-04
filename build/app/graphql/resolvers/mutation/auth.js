@@ -58,6 +58,7 @@ exports.authResolvers = {
         if (!isExist) {
             return {
                 message: 'User not exist',
+                status: 400,
                 token: null
             };
         }
@@ -66,13 +67,15 @@ exports.authResolvers = {
         if (!decryptPass) {
             return {
                 message: 'Email or Password Not match',
-                token: null
+                token: null,
+                status: 400,
             };
         }
         const token = yield jwtValidation_1.jwtHelper.createToken(isExist.id);
         return {
             message: 'User Loggedin successfully',
-            token: token
+            token: token,
+            status: 200
         };
     }),
 };

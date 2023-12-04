@@ -36,6 +36,7 @@ exports.typeDefs = `#graphql
   type AuthResponse {
     message:String
     token:String
+    status:String
   }
 
   type ProfileResponse{
@@ -99,7 +100,6 @@ exports.typeDefs = `#graphql
     ):AuthResponse
 
     profile_create(
-     
       profile:ProfileCreate,
     ):ProfileResponse
 
