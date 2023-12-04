@@ -36,7 +36,7 @@ exports.typeDefs = `#graphql
   type AuthResponse {
     message:String
     token:String
-    status:String
+    status:Int
   }
 
   type ProfileResponse{
