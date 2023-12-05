@@ -120,7 +120,6 @@ export const typeDefs = `#graphql
       postId:ID!
       post:PostData
     ):PostResponse
-
     post_delete(postId:ID!):PostResponse
 
   }
