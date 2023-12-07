@@ -15,8 +15,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.jwtHelper = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const config_1 = __importDefault(require("../config"));
-const createToken = (id) => __awaiter(void 0, void 0, void 0, function* () {
-    return jsonwebtoken_1.default.sign({ userId: id }, config_1.default.jwt_secret, { expiresIn: '1d' });
+const createToken = (id, role) => __awaiter(void 0, void 0, void 0, function* () {
+    return jsonwebtoken_1.default.sign({ userId: id, userRole: role }, config_1.default.jwt_secret, { expiresIn: '1d' });
 });
 const getInfoFromToken = (token) => __awaiter(void 0, void 0, void 0, function* () {
     try {

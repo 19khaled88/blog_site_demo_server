@@ -51,7 +51,6 @@ model User {
   email    String
   password String
   role     ROLE   @default(USER)
-
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   posts     Post[]

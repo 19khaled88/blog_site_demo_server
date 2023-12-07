@@ -35,7 +35,7 @@ exports.authResolvers = {
             const newUser = yield prisma.user.create({
                 data: Object.assign(Object.assign({}, args), { password: hashedPass })
             });
-            const token = yield jwtValidation_1.jwtHelper.createToken(newUser.id);
+            const token = yield jwtValidation_1.jwtHelper.createToken(newUser.id, newUser.role);
             return {
                 message: `${newUser.role} created successfully`,
                 token: token
@@ -71,7 +71,7 @@ exports.authResolvers = {
                 status: 400,
             };
         }
-        const token = yield jwtValidation_1.jwtHelper.createToken(isExist.id);
+        const token = yield jwtValidation_1.jwtHelper.createToken(isExist.id, isExist.role);
         return {
             message: 'User Loggedin successfully',
             token: token,

@@ -43,7 +43,7 @@ export const authResolvers ={
           })
   
   
-          const token = await jwtHelper.createToken(newUser.id)
+          const token = await jwtHelper.createToken(newUser.id,newUser.role)
           return {
             message: `${newUser.role} created successfully`,
             token: token
@@ -88,7 +88,7 @@ export const authResolvers ={
           }
         }
   
-        const token = await jwtHelper.createToken(isExist.id)
+        const token = await jwtHelper.createToken(isExist.id,isExist.role)
         return {
           message: 'User Loggedin successfully',
           token: token,
