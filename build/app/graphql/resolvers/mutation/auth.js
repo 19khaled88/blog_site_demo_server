@@ -16,11 +16,12 @@ exports.authResolvers = void 0;
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const jwtValidation_1 = require("../../../utils/jwtValidation");
 exports.authResolvers = {
-    signup: (parnet, args, { prisma }) => __awaiter(void 0, void 0, void 0, function* () {
+    signup: (parnet, { makeUser }, { prisma }) => __awaiter(void 0, void 0, void 0, function* () {
+        console.log(makeUser);
         //check if user exist
         const isExist = yield prisma.user.findFirst({
             where: {
-                email: args.email
+                email: makeUser.email
             }
         });
         if (isExist) {
@@ -30,10 +31,10 @@ exports.authResolvers = {
             };
         }
         //hash password
-        const hashedPass = yield bcrypt_1.default.hash(args.password, 12);
+        const hashedPass = yield bcrypt_1.default.hash(makeUser.password, 12);
         try {
             const newUser = yield prisma.user.create({
-                data: Object.assign(Object.assign({}, args), { password: hashedPass })
+                data: Object.assign(Object.assign({}, makeUser), { password: hashedPass })
             });
             const token = yield jwtValidation_1.jwtHelper.createToken(newUser.id, newUser.role);
             return {

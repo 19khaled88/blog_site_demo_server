@@ -2,12 +2,13 @@
 
 export const postResolvers = {
     post_create: async (parent: any, { post }: any, { prisma, userInfo }: any) => {
-               
+           
         const isExist = await prisma.user.findFirst({
             where: {
                 id: userInfo.userId
             }
         })
+        
         if (!isExist) {
             return {
                 message: 'Unauthorized access',

@@ -1,4 +1,4 @@
-import jwt, { JwtPayload, Secret } from 'jsonwebtoken'
+import jwt, { Secret } from 'jsonwebtoken'
 import config from '../config'
 
 type tokenType = {
@@ -13,10 +13,15 @@ const createToken = async (id: number, role: string) => {
 }
 
 const getInfoFromToken = async (token: string): Promise<tokenType> => {
+   
+   if(token != undefined && token.at(0) === '"' && token.at(-1) === '"'){
+      token = token.slice(1, -1)
+   }
+   // const uninvertedToken = token.replace(/^"(.+)"$/,'$1')  // remove beginning and ending qoutes from token
 
    try {
       const userData = jwt.verify(token, config.jwt_secret as Secret) as { userId: number, userRole: string }
-
+     
       return userData
    } catch (error: any) {
       return error

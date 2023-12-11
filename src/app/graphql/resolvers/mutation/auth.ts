@@ -16,14 +16,17 @@ interface userInput {
 export const authResolvers ={
 
 
-  signup: async (parnet: any, args: userInput, {prisma}: any) => {
+  signup: async (parnet: any, {makeUser}: any, {prisma}: any) => {
+        console.log(makeUser)
 
         //check if user exist
+
         const isExist = await prisma.user.findFirst({
           where: {
-            email: args.email
+            email: makeUser.email
           }
         })
+       
         if (isExist) {
           return {
             message: 'This user already exist',
@@ -32,12 +35,13 @@ export const authResolvers ={
         }
   
         //hash password
-        const hashedPass = await bcrypt.hash(args.password, 12)
+
+        const hashedPass = await bcrypt.hash(makeUser.password, 12)
   
         try {
           const newUser = await prisma.user.create({
             data: {
-              ...args,
+              ...makeUser,
               password: hashedPass
             }
           })

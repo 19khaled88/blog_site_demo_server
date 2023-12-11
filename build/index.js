@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.prisma = void 0;
 const server_1 = require("@apollo/server");
 const express4_1 = require("@apollo/server/express4");
+const standalone_1 = require("@apollo/server/standalone");
 const drainHttpServer_1 = require("@apollo/server/plugin/drainHttpServer");
 const client_1 = require("@prisma/client");
 const body_parser_1 = __importDefault(require("body-parser"));
@@ -27,6 +28,23 @@ const jwtValidation_1 = require("./app/utils/jwtValidation");
 exports.prisma = new client_1.PrismaClient();
 const app = (0, express_1.default)();
 const httpServer = http_1.default.createServer(app);
+const main = () => __awaiter(void 0, void 0, void 0, function* () {
+    const server = new server_1.ApolloServer({
+        typeDefs: schema_1.typeDefs,
+        resolvers: resolvers_1.resolvers
+    });
+    const { url } = yield (0, standalone_1.startStandaloneServer)(server, {
+        listen: { port: 4001 },
+        context: ({ req }) => __awaiter(void 0, void 0, void 0, function* () {
+            const userInfo = yield jwtValidation_1.jwtHelper.getInfoFromToken(req.headers.authorization);
+            return {
+                prisma: exports.prisma,
+                userInfo
+            };
+        })
+    });
+    console.log(`Server ready at :${url}`);
+});
 function startServer() {
     return __awaiter(this, void 0, void 0, function* () {
         const server = new server_1.ApolloServer({
@@ -40,6 +58,7 @@ function startServer() {
         yield server.start();
         app.use('/api/graphql', (0, cors_1.default)(), express_1.default.json(), (0, express4_1.expressMiddleware)(server, {
             context: ({ req }) => __awaiter(this, void 0, void 0, function* () {
+                // console.log(req.headers.authorization)
                 const userInfo = yield jwtValidation_1.jwtHelper.getInfoFromToken(req.headers.authorization);
                 return {
                     prisma: exports.prisma,

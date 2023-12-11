@@ -1,5 +1,6 @@
 import { ApolloServer } from '@apollo/server';
 import { expressMiddleware } from '@apollo/server/express4';
+import {startStandaloneServer} from '@apollo/server/standalone'
 import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer';
 import { Prisma, PrismaClient } from '@prisma/client';
 import { DefaultArgs } from '@prisma/client/runtime/library';
@@ -27,6 +28,27 @@ interface MyContext {
   token?: String;
 }
 
+const main = async()=>{
+  const server = new ApolloServer({
+    typeDefs,
+    resolvers
+  })
+
+  const {url} = await startStandaloneServer(server,{
+    listen:{port:4001},
+    context:async({req}):Promise<Context>=>{
+      const userInfo = await jwtHelper.getInfoFromToken(req.headers.authorization as string)
+      return{
+        prisma,
+        userInfo
+      }
+    }
+  })
+
+  console.log(`Server ready at :${url}`)
+}
+
+
 
 async function startServer(){
     
@@ -36,6 +58,8 @@ async function startServer(){
       plugins:[ApolloServerPluginDrainHttpServer({httpServer})],
       introspection:true
     })
+
+
     app.use(bodyParser.json())
     app.use(cors())
 
@@ -48,6 +72,7 @@ async function startServer(){
       express.json(),
       expressMiddleware(server,{
         context:async({req}):Promise<Context>=>{
+          // console.log(req.headers.authorization)
           const userInfo = await jwtHelper.getInfoFromToken(req.headers.authorization as string)
           
           return {

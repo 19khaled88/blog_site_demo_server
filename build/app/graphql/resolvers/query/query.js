@@ -31,5 +31,13 @@ exports.Query = {
             }
         });
         return response;
+    }),
+    categories: (parent, args, { prisma }) => __awaiter(void 0, void 0, void 0, function* () {
+        const response = yield prisma.category.findMany({
+            orderBy: {
+                createdAt: 'desc'
+            }
+        });
+        return response;
     })
 };

@@ -11,7 +11,9 @@ export const typeDefs = `#graphql
     avatar:String
     published:Boolean!
     userId:Int
-    user:User  
+    cate_id:Int
+    user:User
+    category:Category
   }
 
   type User{
@@ -31,13 +33,19 @@ export const typeDefs = `#graphql
     user:User! 
   }
 
+  type Category{
+    id:ID!
+    name:String!
+    userId:Int
+    user:String
+  }
+
 
   type AuthResponse {
     message:String
     token:String
     status:Int
   }
-
   type ProfileResponse{
     message:String
     status:Int
@@ -48,6 +56,20 @@ export const typeDefs = `#graphql
     status:Int
     result:Post
   }
+  type CategoryResponse{
+    message:String
+    status:Int
+    result:Category
+  }
+
+  type File {
+    filename: String!
+    mimetype: String!
+    encoding: String!
+  }
+
+
+
 
   input UpdateUserProfile {
     country:String
@@ -56,10 +78,16 @@ export const typeDefs = `#graphql
     updatedAt:String!
   }
 
+  input UpdateCategory {
+    name:String!
+    updatedAt:String
+  }
+
   input PostData {
     title:String,
     content:String,
     avatar:String,
+    cate_id:Int,
   }
 
   input CreateUser{
@@ -82,11 +110,17 @@ export const typeDefs = `#graphql
   }
 
 
+
+
   type Query {
     users:[User]
     profile:Profile
     posts:[Post]
+    categories:[Category]
   }
+
+
+
 
   type Mutation {
     signup(
@@ -107,8 +141,21 @@ export const typeDefs = `#graphql
       input:UpdateUserProfile
     ):ProfileResponse
 
+    category_create(
+      name:String!
+      
+    ):CategoryResponse
+
+    category_update(
+      id:Int!,
+      categoryData:UpdateCategory!
+    ):CategoryResponse
+
+    category_delete( catId:ID! ):CategoryResponse
+
     post_create(
       post:PostData!
+      
     ):PostResponse
 
     post_publish(
@@ -120,6 +167,7 @@ export const typeDefs = `#graphql
       postId:ID!
       post:PostData
     ):PostResponse
+
     post_delete(postId:ID!):PostResponse
 
   }

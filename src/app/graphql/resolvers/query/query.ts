@@ -24,5 +24,15 @@ export const Query = {
         
       })
       return response
+    },
+
+    categories:async(parent:any,args:any,{prisma}:any)=>{
+      
+      const response = await prisma.category.findMany({
+        orderBy:{
+          createdAt:'desc'
+        }
+      })
+      return response
     }
   }
