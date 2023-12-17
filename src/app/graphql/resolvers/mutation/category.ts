@@ -63,7 +63,6 @@ export const categoryResolvers = {
 
     category_update: async (parent: any, { id, categoryData }: any, { prisma, userInfo }: any) => {
 
-
         if (userInfo && (userInfo.userId === null || userInfo.userId === undefined)) {
             return {
                 message: 'Login first',
@@ -71,7 +70,6 @@ export const categoryResolvers = {
                 result: null
             }
         }
-
         const isUserExist = await prisma.user.findFirst({
             where: {
                 AND: [

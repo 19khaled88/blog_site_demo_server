@@ -14,11 +14,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const cloudinary_1 = require("cloudinary");
 const dotenv_1 = __importDefault(require("dotenv"));
+const config_1 = __importDefault(require("../config"));
 dotenv_1.default.config();
 cloudinary_1.v2.config({
-    cloud_name: 'your_cloud_name',
-    api_key: 'your_api_key',
-    api_secret: 'your_api_secret',
+    cloud_name: config_1.default.cloud_name,
+    api_key: config_1.default.api_key,
+    api_secret: config_1.default.api_secret,
 });
 const upload_image = (file) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -41,5 +42,5 @@ const upload_image = (file) => __awaiter(void 0, void 0, void 0, function* () {
         };
     }
 });
-exports.default = upload_image;
-// export default cloudinary
+// export default upload_image
+exports.default = cloudinary_1.v2;

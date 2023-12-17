@@ -2,7 +2,9 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.typeDefs = void 0;
 exports.typeDefs = `#graphql
+scalar Upload
 
+scalar JSON
 
   type Post {
     id:ID!
@@ -37,8 +39,9 @@ exports.typeDefs = `#graphql
   type Category{
     id:ID!
     name:String!
-    userId:Int
-    user:String
+    user:User
+    posts:[Post]
+    
   }
 
 
@@ -63,12 +66,20 @@ exports.typeDefs = `#graphql
     result:Category
   }
 
-  type File {
-    filename: String!
-    mimetype: String!
-    encoding: String!
+  type Banner{
+    id:ID   
+    userId:Int
+    title:String
+    imageUrl:String
   }
 
+  type BannerResponse{
+    message:String
+    status:Int
+    result:Banner
+  }
+
+ 
 
 
 
@@ -110,7 +121,7 @@ exports.typeDefs = `#graphql
     userId:Int!
   }
 
-
+ 
 
 
   type Query {
@@ -118,9 +129,9 @@ exports.typeDefs = `#graphql
     profile:Profile
     posts:[Post]
     categories:[Category]
+
+    
   }
-
-
 
 
   type Mutation {
@@ -144,7 +155,6 @@ exports.typeDefs = `#graphql
 
     category_create(
       name:String!
-      
     ):CategoryResponse
 
     category_update(
@@ -152,7 +162,15 @@ exports.typeDefs = `#graphql
       categoryData:UpdateCategory!
     ):CategoryResponse
 
-    category_delete( catId:ID! ):CategoryResponse
+    category_delete( 
+      catId:ID! 
+    ):CategoryResponse
+
+    create_banner(
+      imageUrl:String!
+      title:String!
+    ):BannerResponse
+
 
     post_create(
       post:PostData!

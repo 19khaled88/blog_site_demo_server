@@ -21,5 +21,13 @@ exports.Post = {
         return response;
         // return userLoader.load(parent.userId)
         // const response =await userLoader.load(parent.userId)
+    }),
+    category: (parent, args, { prisma, userInfo }) => __awaiter(void 0, void 0, void 0, function* () {
+        const response = yield prisma.category.findUnique({
+            where: {
+                id: parent.cate_id
+            }
+        });
+        return response;
     })
 };
