@@ -38,7 +38,7 @@ exports.postResolvers = {
     post_update: (parent, { postId, post }, { prisma, userInfo }) => __awaiter(void 0, void 0, void 0, function* () {
         if (post === undefined || post === null) {
             return {
-                message: 'Nothing for update',
+                message: 'Nothing for updating',
                 status: 400,
                 result: null
             };
@@ -55,23 +55,40 @@ exports.postResolvers = {
                 result: null
             };
         }
-        const post_updated = yield prisma.post.update({
-            where: {
-                id: Number(postId),
-                userId: userInfo.userId
-            },
-            data: Object.assign({}, post)
-        });
-        if (post_updated) {
+        if (userInfo.role === 'ADMIN') {
+            const res = yield prisma.post.update({
+                where: {
+                    id: Number(postId)
+                },
+                data: Object.assign({}, post)
+            });
             return {
-                message: 'post updated successfully',
+                message: 'Post updated successfully',
                 status: 200,
-                result: post_updated
+                result: res
             };
         }
+        if (userInfo.role === 'USER') {
+            const res = yield prisma.post.update({
+                where: {
+                    id: Number(postId),
+                    userId: userInfo.userId
+                },
+                data: Object.assign({}, post)
+            });
+            return {
+                message: 'Post updated successfully',
+                status: 200,
+                result: res
+            };
+        }
+        return {
+            message: 'Post not updated successfully',
+            status: 400,
+            result: null
+        };
     }),
     post_delete: (parent, { postId }, { prisma, userInfo }) => __awaiter(void 0, void 0, void 0, function* () {
-        console.log(postId);
         const isExist = yield prisma.user.findFirst({
             where: {
                 id: userInfo.userId
@@ -84,18 +101,36 @@ exports.postResolvers = {
                 result: null
             };
         }
-        const post_deleted = yield prisma.post.delete({
-            where: {
-                id: Number(postId)
-            }
-        });
-        if (post_deleted) {
+        if (userInfo.role === 'ADMIN') {
+            const res = yield prisma.post.delete({
+                where: {
+                    id: Number(postId)
+                }
+            });
             return {
-                message: 'post deleted successfully',
+                message: 'Post deleted successfully',
                 status: 200,
-                result: post_deleted
+                result: res
             };
         }
+        if (userInfo.role === 'USER') {
+            const res = yield prisma.post.delete({
+                where: {
+                    id: Number(postId),
+                    userId: userInfo.userId
+                }
+            });
+            return {
+                message: 'Post deleted successfully',
+                status: 200,
+                result: res
+            };
+        }
+        return {
+            message: 'Post not deleted!',
+            status: 400,
+            result: null
+        };
     }),
     post_publish: (parent, { postId, post }, { prisma, userInfo }) => __awaiter(void 0, void 0, void 0, function* () {
         const isExist = yield prisma.post.findFirst({

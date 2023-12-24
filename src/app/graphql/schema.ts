@@ -8,6 +8,7 @@ scalar JSON
   type Post {
     id:ID!
     title:String!
+    short_name:String!
     content:String!
     createdAt:String!
     avatar:String
@@ -81,7 +82,6 @@ scalar JSON
  
 
 
-
   input UpdateUserProfile {
     country:String
     location:String
@@ -96,6 +96,7 @@ scalar JSON
 
   input PostData {
     title:String,
+    short_name:String,
     content:String,
     avatar:String,
     cate_id:Int,
@@ -128,8 +129,7 @@ scalar JSON
     profile:Profile
     posts:[Post]
     categories:[Category]
-
-    
+    banners:[Banner]
   }
 
 

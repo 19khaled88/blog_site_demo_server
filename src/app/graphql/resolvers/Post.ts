@@ -18,7 +18,7 @@ export const Post = {
        
     },
     category:async(parent: any, args: any, { prisma, userInfo }:any)=>{
-     
+   
         const response = await prisma.category.findUnique({
             where:{
                 id:parent.cate_id

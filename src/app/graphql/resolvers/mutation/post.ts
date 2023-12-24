@@ -2,13 +2,13 @@
 
 export const postResolvers = {
     post_create: async (parent: any, { post }: any, { prisma, userInfo }: any) => {
-           
+
         const isExist = await prisma.user.findFirst({
             where: {
                 id: userInfo.userId
             }
         })
-        
+
         if (!isExist) {
             return {
                 message: 'Unauthorized access',
@@ -16,7 +16,7 @@ export const postResolvers = {
                 result: null
             }
         }
-      
+
         const post_created = await prisma.post.create({
             data: {
                 ...post,
@@ -32,11 +32,11 @@ export const postResolvers = {
         }
     },
 
-    
-    post_update: async (parent: any, { postId, post }: any, { prisma, userInfo }:any) => {
+
+    post_update: async (parent: any, { postId, post }: any, { prisma, userInfo }: any) => {
         if (post === undefined || post === null) {
             return {
-                message: 'Nothing for update',
+                message: 'Nothing for updating',
                 status: 400,
                 result: null
             }
@@ -53,30 +53,50 @@ export const postResolvers = {
                 result: null
             }
         }
+        if (userInfo.role === 'ADMIN') {
+            const res = await prisma.post.update({
+                where: {
+                    id: Number(postId)
+                },
+                data: {
+                    ...post
+                }
+            })
 
-        const post_updated = await prisma.post.update({
-            where: {
-                id: Number(postId),
-                userId: userInfo.userId
-            },
-            data: {
-                ...post
-            }
-        })
-
-        if (post_updated) {
             return {
-                message: 'post updated successfully',
+                message: 'Post updated successfully',
                 status: 200,
-                result: post_updated
+                result: res
             }
         }
+
+        if (userInfo.role === 'USER') {
+            const res = await prisma.post.update({
+                where: {
+                    id: Number(postId),
+                    userId: userInfo.userId
+                },
+                data: {
+                    ...post
+                }
+            })
+
+            return {
+                message: 'Post updated successfully',
+                status: 200,
+                result: res
+            }
+        }
+        return {
+            message: 'Post not updated successfully',
+            status: 400,
+            result: null
+        }
+
     },
 
 
-    post_delete: async (parent: any, { postId }: any, { prisma, userInfo }:any) => {
-        console.log(postId)
-
+    post_delete: async (parent: any, { postId }: any, { prisma, userInfo }: any) => {
         const isExist = await prisma.user.findFirst({
             where: {
                 id: userInfo.userId
@@ -89,24 +109,41 @@ export const postResolvers = {
                 result: null
             }
         }
-
-        const post_deleted = await prisma.post.delete({
-            where: {
-                id: Number(postId)
-            }
-        })
-
-        if (post_deleted) {
+        if (userInfo.role === 'ADMIN') {
+            const res = await prisma.post.delete({
+                where: {
+                    id: Number(postId)
+                }
+            })
             return {
-                message: 'post deleted successfully',
+                message: 'Post deleted successfully',
                 status: 200,
-                result: post_deleted
+                result: res
             }
+
+        }
+        if (userInfo.role === 'USER') {
+            const res = await prisma.post.delete({
+                where: {
+                    id: Number(postId),
+                    userId: userInfo.userId
+                }
+            })
+            return {
+                message: 'Post deleted successfully',
+                status: 200,
+                result: res
+            }
+        }
+        return {
+            message: 'Post not deleted!',
+            status: 400,
+            result: null
         }
     },
 
 
-    post_publish: async (parent: any, { postId, post }: any, { prisma, userInfo }:any) => {
+    post_publish: async (parent: any, { postId, post }: any, { prisma, userInfo }: any) => {
 
         const isExist = await prisma.post.findFirst({
             where: {

@@ -39,5 +39,8 @@ exports.Query = {
             }
         });
         return response;
+    }),
+    banners: (parent, args, { prisma }) => __awaiter(void 0, void 0, void 0, function* () {
+        return yield prisma.banner.findMany({});
     })
 };

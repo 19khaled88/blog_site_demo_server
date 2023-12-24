@@ -6,10 +6,12 @@ const query_1 = require("./query/query");
 const Profile_1 = require("./Profile");
 const Post_1 = require("./Post");
 const User_1 = require("./User");
+const Category_1 = require("./Category");
 exports.resolvers = {
     Query: query_1.Query,
     Mutation: mutation_1.Mutation,
     Post: Post_1.Post,
     User: User_1.User,
-    Profile: Profile_1.Profile
+    Profile: Profile_1.Profile,
+    Category: Category_1.Category
 };
