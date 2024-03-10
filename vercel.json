@@ -4,12 +4,17 @@
 	"builds": [
 		{
 			"src": "public/index.js",
-			"use": "@now/node"
+			"use": "@now/node",
+            "config":{
+                "includeFiles":[
+                    "public/**"
+                ]
+            }
 		}
 	],
 	"routes": [
 		{
-			"src": "/graphql",
+			"src": "/(.*)",
 			"dest": "public/index.js"
 			
 		}
