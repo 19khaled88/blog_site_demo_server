@@ -9,7 +9,7 @@
 	],
 	"routes": [
 		{
-			"src": "/graphql",
+			"src": "/api",
 			"dest": "public/index.js"
 			
 		}
