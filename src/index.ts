@@ -11,7 +11,7 @@ import { Prisma, PrismaClient } from '@prisma/client';
 import { DefaultArgs } from '@prisma/client/runtime/library';
 import bodyParser from 'body-parser';
 import cors from 'cors';
-import express from 'express';
+import express, { Request, Response } from 'express';
 import http from 'http';
 import { resolvers } from './app/graphql/resolvers';
 import { typeDefs } from './app/graphql/schema';
@@ -104,6 +104,10 @@ async function startServer(){
       // })
 
       )
+
+    app.use('/',(req: Request, res: Response) => {
+      res.send({ "User Routes": 'This route work successfully' })
+    })
 
     app.listen(8001,()=>console.log(`Server started on http://localhost:8001${server.graphqlPath}`))
     // app.listen(8001,()=>console.log(`Server started on http://localhost:8001/api/graphql`))
