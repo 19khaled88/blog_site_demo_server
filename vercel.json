@@ -3,7 +3,7 @@
 	
 	"builds": [
 		{
-			"src": "public/index.js",
+			"src": "public/**",
 			"use": "@now/node",
             "config":{
                 "includeFiles":[
@@ -15,7 +15,7 @@
 	"routes": [
 		{
 			"src": "/(.*)",
-			"dest": "public/index.js"
+			"dest": "public/**"
 			
 		}
 	]
