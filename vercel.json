@@ -1,10 +1,19 @@
 {
     "version": 2,
-    "rewrites": [
+    "build":[
         {
-            "source": "/(.*)",
-            "destination": "/public"
-            
+            "src":"public/index.js",
+            "config":{
+                "includeFiles":[
+                    "public/**"
+                ]
+            }
+        }
+    ],
+    "routes":[
+        {
+            "src":"/(.*)",
+            "dest":"public/index.js"
         }
     ]
 }
