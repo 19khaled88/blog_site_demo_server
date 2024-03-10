@@ -83,7 +83,11 @@ async function startServer(){
 
     await server.start()
 
-    server.applyMiddleware({app})
+    server.applyMiddleware({
+      app,
+      path:'/public'
+
+    })
     app.use(
       '/api/graphql',
       

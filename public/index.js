@@ -72,7 +72,10 @@ function startServer() {
         app.use((0, cors_1.default)());
         app.use(express_1.default.json());
         yield server.start();
-        server.applyMiddleware({ app });
+        server.applyMiddleware({
+            app,
+            path: '/public'
+        });
         app.use('/api/graphql', (0, cors_1.default)(), express_1.default.json(), (0, graphql_upload_ts_1.graphqlUploadExpress)());
         app.listen(8001, () => console.log(`Server started on http://localhost:8001${server.graphqlPath}`));
         // app.listen(8001,()=>console.log(`Server started on http://localhost:8001/api/graphql`))
