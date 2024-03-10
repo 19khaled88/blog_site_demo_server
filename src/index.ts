@@ -79,6 +79,7 @@ async function startServer(){
 
     app.use(bodyParser.json())
     app.use(cors())
+    app.use(express.json())
 
     await server.start()
 
