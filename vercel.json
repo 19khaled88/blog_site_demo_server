@@ -3,10 +3,8 @@
     "rewrites": [
         {
             "source": "/(.*)",
-            "destination": "/public",
-            "headers": {
-                "Access-Control-Allow-Origin": "*"
-            }
+            "destination": "/public"
+            
         }
     ]
 }
