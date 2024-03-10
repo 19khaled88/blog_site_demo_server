@@ -105,9 +105,7 @@ async function startServer(){
 
       )
 
-    app.use('/',(req: Request, res: Response) => {
-      res.send({ "User Routes": 'This route work successfully' })
-    })
+   
 
     app.listen(8001,()=>console.log(`Server started on http://localhost:8001${server.graphqlPath}`))
     // app.listen(8001,()=>console.log(`Server started on http://localhost:8001/api/graphql`))
