@@ -84,8 +84,8 @@ async function startServer(){
     await server.start()
 
     server.applyMiddleware({
-      app,
-      path:'/api'
+      app
+      
 
     })
     app.use(
