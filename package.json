@@ -9,7 +9,6 @@
     "compile": "tsc",
     "dev": "nodemon --watch ts-node-dev src/index.ts",
     "build": "tsc",
-    
     "postinstall": "prisma generate"
   },
   "keywords": [],

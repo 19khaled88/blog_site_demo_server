@@ -66,7 +66,7 @@ function startServer() {
                 };
             }),
             // plugins:[ ApolloServerPluginDrainHttpServer({httpServer}), ApolloServerPluginLandingPageLocalDefault({embed:true}) ],
-            introspection: true
+            introspection: true,
         });
         app.use(body_parser_1.default.json());
         app.use((0, cors_1.default)());
@@ -74,9 +74,9 @@ function startServer() {
         yield server.start();
         server.applyMiddleware({
             app,
-            path: '/'
+            path: '/dist/index'
         });
-        app.use('/', (0, cors_1.default)(), express_1.default.json(), (0, graphql_upload_ts_1.graphqlUploadExpress)());
+        app.use('/dist/index', (0, cors_1.default)(), express_1.default.json(), (0, graphql_upload_ts_1.graphqlUploadExpress)());
         app.listen(8001, () => console.log(`Server started on http://localhost:8001${server.graphqlPath}`));
         // app.listen(8001,()=>console.log(`Server started on http://localhost:8001/api/graphql`))
     });

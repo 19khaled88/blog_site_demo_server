@@ -60,12 +60,15 @@ interface MyContext {
 async function startServer(){
     
     const server = new ApolloServer({
+      
       typeDefs,
       resolvers,
       csrfPrevention:true,
       cache:'bounded',
+      
       context:async({req}):Promise<Context>=>{
         const userInfo = await jwtHelper.getInfoFromToken(req.headers.authorization as string)
+        
         return {
           prisma,
           userInfo,
@@ -73,10 +76,13 @@ async function startServer(){
         }
       },
       // plugins:[ ApolloServerPluginDrainHttpServer({httpServer}), ApolloServerPluginLandingPageLocalDefault({embed:true}) ],
-      introspection:true
+     
+      introspection:true,
+     
+
     })
 
-
+ 
     app.use(bodyParser.json())
     app.use(cors())
     app.use(express.json())
@@ -85,17 +91,16 @@ async function startServer(){
 
     server.applyMiddleware({
       app,
-      path:'/'
-      
-
+      path:'/dist/index'
     })
+
     app.use(
-      '/',
+      '/dist/index',
       
       cors<cors.CorsRequest>(),
       express.json(),
       graphqlUploadExpress(),
-     
+      
       // expressMiddleware(server,{
       //   context:async({req}):Promise<Context>=>{
       //     // console.log(req.headers.authorization)
