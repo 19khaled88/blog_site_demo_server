@@ -89,7 +89,7 @@ async function startServer(){
 
     })
     app.use(
-      '/api/graphql',
+      '/api',
       
       cors<cors.CorsRequest>(),
       express.json(),
