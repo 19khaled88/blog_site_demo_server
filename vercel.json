@@ -3,14 +3,14 @@
 	
 	"builds": [
 		{
-			"src": "public/app/index.js",
+			"src": "public/index.js",
 			"use": "@now/node"
 		}
 	],
 	"routes": [
 		{
 			"src": "/(.*)",
-			"dest": "public/app/index.js"
+			"dest": "public/index.js"
 			
 		}
 	]

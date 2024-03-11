@@ -13,9 +13,9 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import express, { Request, Response } from 'express';
 import http from 'http';
-import { resolvers } from './graphql/resolvers';
-import { typeDefs } from './graphql/schema';
-import { jwtHelper } from './utils/jwtValidation';
+import { resolvers } from './app/graphql/resolvers';
+import { typeDefs } from './app/graphql/schema';
+import { jwtHelper } from './app/utils/jwtValidation';
 
 export const prisma = new PrismaClient()
 const app = express()

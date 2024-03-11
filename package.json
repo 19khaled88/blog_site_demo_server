@@ -9,7 +9,7 @@
     "dev": "nodemon --watch ts-node-dev src/index.ts",
     "postinstall": "prisma generate",
     "build": "tsc",
-    "start": "nodemon ./build/index.js"
+    "start": "nodemon ./public/index.js"
   },
   "keywords": [],
   "author": "",
