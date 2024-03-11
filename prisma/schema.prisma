@@ -6,13 +6,12 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
-  
+  provider = "mongodb"
+  url      = env("DB_URL")
 }
 
 model Post {
-  id         Int      @id @default(autoincrement())
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
   title      String
   short_name String
   content    String
@@ -20,18 +19,18 @@ model Post {
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
   published  Boolean  @default(false)
-  userId     Int
+  userId     String   @db.ObjectId
   user       User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  cate_id    Int
+  cate_id    String   @db.ObjectId
   category   Category @relation(fields: [cate_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   @@map("posts")
 }
 
 model Category {
-  id            Int           @id @default(autoincrement())
+  id            String        @id @default(auto()) @map("_id") @db.ObjectId
   name          String
-  userId        Int
+  userId        String   @db.ObjectId
   user          User          @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   subcategories Subcategory[]
   createdAt     DateTime      @default(now())
@@ -42,9 +41,9 @@ model Category {
 }
 
 model Subcategory {
-  id         Int      @id @default(autoincrement())
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
   name       String
-  categoryId Int
+  categoryId String   @db.ObjectId
   category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
@@ -53,7 +52,7 @@ model Subcategory {
 }
 
 model User {
-  id        Int        @id @default(autoincrement())
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
   name      String
   email     String
   password  String
@@ -69,25 +68,25 @@ model User {
 }
 
 model Profile {
-  id        Int      @id @default(autoincrement())
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
   country   String
   location  String
   age       String
   avatar    String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  userId    Int      @unique
+  userId    String   @db.ObjectId @unique
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   @@map("profiles")
 }
 
 model Banner {
-  id       Int    @id @default(autoincrement())
-  userId   Int
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId   String   @db.ObjectId
   title    String
   user     User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  imageUrl String @db.VarChar(255)
+  imageUrl String 
 
   @@map("banners")
 }
