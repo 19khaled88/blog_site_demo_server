@@ -4,11 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "nodemon dist/index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "compile": "tsc",
     "dev": "nodemon --watch ts-node-dev src/index.ts",
     "build": "tsc",
-    "start": "nodemon ./public/index.js",
+    
     "postinstall": "prisma generate"
   },
   "keywords": [],
