@@ -91,11 +91,11 @@ async function startServer(){
 
     server.applyMiddleware({
       app,
-      path:'/dist/index'
+      path:'/graphql'
     })
 
     app.use(
-      '/dist/index',
+      '/graphql',
       
       cors<cors.CorsRequest>(),
       express.json(),
